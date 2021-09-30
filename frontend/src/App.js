@@ -1,17 +1,26 @@
-import React, { useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import React from 'react';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Notebook from './components/Notebook';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './index.css';
 
 
 export default function App() {
-  const editorRef = useRef(null);
-  const log = () => {
-   if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
   return (
-      <SignIn />
+      <Router>
+        <Switch>
+            <Route exact path="/">
+                <Notebook />
+            </Route>
+            <Route exact path="/signin">
+                <SignIn />
+            </Route>
+            <Route exact path="/signup">
+                <SignUp />
+            </Route>
+        </Switch>
+      </Router>
   );
 }
 

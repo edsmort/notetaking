@@ -10,7 +10,7 @@ export default function Notebook() {
     const onAddNote = () => {
         const newNote = {
             id:uuid(),
-            title:"Untitled note",
+            title:"",
             body:"",
             lastModified: Date.now()
         }
@@ -25,6 +25,17 @@ export default function Notebook() {
         return notes.find((note) => note.id === activeNote);
     }
 
+    const onUpdateNote = (updatedNote) => {
+        const updatedNotes = notes.map((note) => {
+            if (note.id === activeNote) {
+                return updatedNote;
+            }
+            return note;
+        });
+
+        setNotes(updatedNotes);
+    }
+
     return(
         <div className="Notebook">
             <Sidebar 
@@ -34,7 +45,7 @@ export default function Notebook() {
                 activeNote={activeNote}
                 setActiveNote={setActiveNote}
             />
-            <TextEditor activeNote={getActiveNote()} />
+            <TextEditor activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
         </div>
     )
 }

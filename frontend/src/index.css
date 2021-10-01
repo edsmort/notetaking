@@ -30,11 +30,6 @@ button:hover {
     display: flex;
 }
 
-.text-editor {
-    width:70%;
-    height: 100vh;
-}
-
 .app-sidebar {
   width: 30%;
   height: 100vh;
@@ -82,3 +77,37 @@ button:hover {
   color: white;
 }
 
+.app-main {
+  width: 70%;
+  height: 100vh;
+}
+
+.app-main-note-edit input,
+textarea {
+  display: block;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  width: 100%;
+  height: calc(100vh - 150px);
+  padding: 10px;
+  resize: none;
+  font-size: inherit;
+  font-family: inherit;
+}
+.app-main-note-edit input {
+  height: 50px;
+  font-size: 2rem;
+}
+
+.app-main-note-edit {
+  padding: 25px;
+}
+
+.no-active-note {
+  width: 70%;
+  height: 100vh;
+  line-height: 100vh;
+  text-align: center;
+  font-size: 2rem;
+  color: #999;
+}

@@ -1,18 +1,45 @@
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function TextEditor() {
+export default function TextEditor({ activeNote, onUpdateNote }) {
     const editorRef = useRef(null);
-    const log = () => {
+    const onEditBody = () => {
         if (editorRef.current) {
-        console.log(editorRef.current.getContent());
+            onUpdateNote({
+                ...activeNote,
+                body: editorRef.current.getContent(),
+                lastModified: Date.now()
+            })
         }
     };
+
+    const onEditTitle = (value) => {
+        onUpdateNote({
+            ...activeNote,
+            title:value,
+            lastModified: Date.now()
+        })
+    };
+
+    if(!activeNote) return <div className="no-active-note">Select a note to begin</div>
+
     return (
-     <>
-       <Editor
-         onInit={(evt, editor) => editorRef.current = editor}
-         initialValue="<p>Start writing your note here!</p>"
+    <div className="app-main">
+     <div className="app-main-note-edit">
+        <div style={{display:"flex"}}>
+            <input 
+                type="text" 
+                id="title" 
+                value={activeNote.title} 
+                onChange ={(e) => onEditTitle(e.target.value)} 
+                placeHolder="Enter title here"
+                autoFocus 
+            />
+            <button style={{padding:"25px"}}>Save</button>
+        </div>
+        <Editor
+         onInit={(evt, editor) => editorRef.current = editor} onEditorChange ={onEditBody} 
+         value={activeNote.body}
          init={{
            menubar: false,
            width:'100%',
@@ -27,8 +54,9 @@ export default function TextEditor() {
            'removeformat | help',
            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
          }}
-       className="text-editor" />
-     </>
+        className="text-editor" />
+    </div>
+    </div>
     )
 
 }

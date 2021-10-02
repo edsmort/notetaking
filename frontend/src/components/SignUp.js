@@ -13,15 +13,12 @@ import { Link } from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp({ signUp }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log(data.get('email') + data.get('password'));
+    signUp(data.get('email'), data.get('password'));
   };
 
   return (

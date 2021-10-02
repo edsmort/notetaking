@@ -3,7 +3,7 @@ import TextEditor from './Editor';
 import { useState } from 'react';
 import uuid from 'react-uuid';
 
-export default function Notebook() {
+export default function Notebook({ user }) {
     const [notes, setNotes] = useState([]);
     const [activeNote, setActiveNote] = useState(false);
 

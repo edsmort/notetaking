@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function TextEditor({ activeNote, onUpdateNote }) {
+export default function TextEditor({ activeNote, onUpdateNote, onSave }) {
     const editorRef = useRef(null);
     const onEditBody = () => {
         if (editorRef.current) {
@@ -35,7 +35,7 @@ export default function TextEditor({ activeNote, onUpdateNote }) {
                 placeHolder="Enter title here"
                 autoFocus 
             />
-            <button style={{padding:"25px"}}>Save</button>
+            <button style={{padding:"25px"}} onClick={onSave}>Save</button>
         </div>
         <Editor
          onInit={(evt, editor) => editorRef.current = editor} onEditorChange ={onEditBody} 

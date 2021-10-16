@@ -2,10 +2,33 @@ import Sidebar from './Sidebar';
 import TextEditor from './Editor';
 import { useState } from 'react';
 import uuid from 'react-uuid';
+import Axios from 'axios';
 
 export default function Notebook({ user }) {
-    const [notes, setNotes] = useState([]);
+    const [notes, setNotes] = useState(function () {
+        if (user) {
+            return user.notes;
+        }
+        return [];
+    });
+
     const [activeNote, setActiveNote] = useState(false);
+
+    const onSave = () => {
+        if (user) { 
+            Axios.post('http://localhost:3001/notes', {
+                email: user.email,
+                notes: notes,
+                crossDomain:true
+            })
+            .then(function (response) {
+                setNotes(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
+    }
 
     const onAddNote = () => {
         const newNote = {
@@ -45,7 +68,7 @@ export default function Notebook({ user }) {
                 activeNote={activeNote}
                 setActiveNote={setActiveNote}
             />
-            <TextEditor activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
+            <TextEditor onSave={onSave} activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
         </div>
     )
 }

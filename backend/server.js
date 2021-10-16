@@ -35,13 +35,17 @@ app.post('/register', async (req, res) => {
         if (existing) {
             return res.status(409).send("An account with this email already exists");
         }
-
-        const encrytedPassword = await bcrypt.hash(password, 10);
+        console.log(email + password);
         const user = {
             email: email,
-            password: encryptedPassword,
+            password: password,
             notes: []
         }
+
+        bcrypt.hash(password, 10, (err, hash) => {
+            if (err) return console.log(err);
+            user.password = hash;
+        });
         db.collection('Users').insertOne(user);
         res.status(200).send("User created!");
     } catch (err) {
@@ -53,10 +57,11 @@ app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!(email && password)) {
-            res.status(400).send("Missing email and/or password");
+            return res.status(400).send("Missing email and/or password");
         }
         const user = await db.collection('Users').findOne({ email });
-        if (user && (await bcrypt.compare(password, user.password))) {
+        console.log(user);
+        if (user && password == user.password) {
             const emailNotes = {
                 email: user.email,
                 notes: user.notes
@@ -70,11 +75,13 @@ app.post('/login', async (req, res) => {
 
 app.post('/notes', async (req, res) => {
     try {
+        console.log('getting request:' + req.body);
         const { email, notes } = req.body;
-        const user = db.collection('Users').findOne({ email });
+        const user = await db.collection('Users').findOne({ email });
+        console.log(user);
         if (user) {
-            db.collection('Users').update({_id:user._id}, {notes:notes});
-            res.status(200).json(user.notes);
+            db.collection('Users').updateOne({_id:user._id}, {$set: {notes:notes}});
+            res.status(200);
         }
     } catch (err) {
         console.log(err);

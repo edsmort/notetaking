@@ -3,7 +3,7 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Notebook from './components/Notebook';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './index.css';
 import Axios from 'axios';
 
@@ -16,8 +16,8 @@ export default function App() {
             password: password
         })
         .then(function (response) {
-            console.log(response);
-            //setUser();
+            console.log(response.data);
+            setUser(response.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -29,14 +29,12 @@ export default function App() {
     }
 
     const signUp = (email, password) => {
-        console.log('this is the email pass: ' + email + password);
         Axios.post('http://localhost:3001/register', {
             email: email,
             password: password
         })
         .then(function (response) {
             console.log(response);
-            //setUser();
         })
         .catch(function (error) {
             console.log(error);
@@ -48,10 +46,10 @@ export default function App() {
       <Navbar user={user} signOut={signOut} />
         <Switch>
             <Route exact path="/">
-                <Notebook user={user} />
+                {user ? <Notebook user={user} /> : <Redirect to="/signin" />}
             </Route>
             <Route exact path="/signin">
-                <SignIn signIn={signIn} />
+                {user ? <Redirect to="/" /> : <SignIn signIn={signIn} /> }
             </Route>
             <Route exact path="/signup">
                 <SignUp signUp={signUp}/>

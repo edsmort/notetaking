@@ -16,12 +16,10 @@ export default function ButtonAppBar({ user, signOut }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             EdNotes
           </Typography>
-          <Link to="/">
-              <Button color="inherit">Notes</Button>
-          </Link>
-        
           { user ? (
-              <Button color="inherit" onClick={signOut}>Sign out</Button>
+              <Link to="/signin">
+                  <Button color="inherit" onClick={signOut}>Sign out</Button>
+              </Link>
               )
               :
               <Link to="/signin">

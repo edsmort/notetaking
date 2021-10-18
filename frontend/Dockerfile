@@ -6,9 +6,9 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 COPY ./package*.json /app/
 
-RUN npm i
+RUN npm install --silent
 
-RUN npm i react-scripts -g
+RUN npm install react-scripts -g --silent
 
 COPY . .
 

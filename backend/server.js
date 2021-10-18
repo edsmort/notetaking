@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://mongodb:27017';
 
 const dbName = 'EdNotes';
 let db
@@ -25,7 +25,6 @@ app.listen(3001, function() {
 
 app.post('/register', async (req, res) => {
     try {
-        console.log('getting request!: ' + req.body);
         const { email, password } = req.body;
         if (!(email && password)) {
             return res.status(400).send("Missing email and/or password");
@@ -35,7 +34,6 @@ app.post('/register', async (req, res) => {
         if (existing) {
             return res.status(409).send("An account with this email already exists");
         }
-        console.log(email + password);
         const user = {
             email: email,
             password: password,
@@ -60,7 +58,6 @@ app.post('/login', async (req, res) => {
             return res.status(400).send("Missing email and/or password");
         }
         const user = await db.collection('Users').findOne({ email });
-        console.log(user);
         if (user && password == user.password) {
             const emailNotes = {
                 email: user.email,
@@ -75,10 +72,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/notes', async (req, res) => {
     try {
-        console.log('getting request:' + req.body);
         const { email, notes } = req.body;
         const user = await db.collection('Users').findOne({ email });
-        console.log(user);
         if (user) {
             db.collection('Users').updateOne({_id:user._id}, {$set: {notes:notes}});
             res.status(200);

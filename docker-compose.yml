@@ -19,6 +19,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3001:3001
+      - 27017:27107
     networks:
       - notenet
 

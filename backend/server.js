@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://mongodb-1-servers-vm-0.us-central1-a.c.festive-planet-321904.internal:27017';
+const url = 'mongodb://10.128.0.5:27017';
 
 const dbName = 'EdNotes';
 let db

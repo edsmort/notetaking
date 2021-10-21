@@ -4,12 +4,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://10.128.0.5:27017';
+const url = 'mongodb://10.128.0.13:27017';
 
 const dbName = 'EdNotes';
 let db
 
-MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
     if (err) return console.log(err);
     db = client.db(dbName);
     console.log(`Connected Mongodb: ${url}`);
@@ -17,6 +17,12 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
 });
 
 app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(express.json());
 
 app.listen(3001, function() {

@@ -11,7 +11,7 @@ export default function App() {
     const [user, setUser] = useState(false);
     
     const signIn = (email, password) => {
-        Axios.post('http://localhost:3001/login', {
+        Axios.post('/api/login', {
             email: email,
             password: password
         })
@@ -29,7 +29,7 @@ export default function App() {
     }
 
     const signUp = (email, password) => {
-        Axios.post('http://localhost:3001/register', {
+        Axios.post('/api/register', {
             email: email,
             password: password
         })

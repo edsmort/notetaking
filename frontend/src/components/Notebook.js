@@ -16,7 +16,7 @@ export default function Notebook({ user }) {
 
     const onSave = () => {
         if (user) { 
-            Axios.post('http://localhost:3001/notes', {
+            Axios.post('/api/notes', {
                 email: user.email,
                 notes: notes,
                 crossDomain:true

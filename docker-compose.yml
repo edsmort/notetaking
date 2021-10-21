@@ -1,27 +1,20 @@
-version: "3.3"
-
-networks:
-  notenet:
-    driver: bridge
+version: "3.4"
 
 services:
   web:
+    image: web 
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - 80:80
-    networks:
-      - notenet
+    depends_on:
+      - api
   api:
+    image: api
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - 3001:3001
-      - 27017:27107
-    networks:
-      - notenet
-
-
 

@@ -1,6 +1,6 @@
 # Notetaking
-This is a simple note-taking application featuring a login and registration function and a fully featured WYSIWYG text editor. It is currently in it's minimum
-functional state.
+This is a simple note-taking application featuring a login and registration function and a fully featured WYSIWYG text editor. It features a React frontend with 
+a Node/express backend. It is currently in it's minimum functional state.
 
 ## Context
 
